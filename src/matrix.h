@@ -3,13 +3,15 @@
 
 #include <Python.h>
 
-typedef struct {
-    PyObject_HEAD
+typedef struct
+{
+    PyObject_HEAD 
     double *data;
     Py_ssize_t size;
 } MatrixDataObject;
 
-typedef struct {
+typedef struct
+{
     PyObject_HEAD
     Py_ssize_t rows;
     Py_ssize_t cols;
@@ -19,11 +21,13 @@ typedef struct {
     MatrixDataObject *data_obj;
 } MatrixObject;
 
-typedef struct {
+typedef struct
+{
     MatrixObject base;
 } RowObject;
 
-typedef struct {
+typedef struct
+{
     MatrixObject base;
 } ColumnObject;
 

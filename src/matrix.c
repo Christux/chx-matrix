@@ -1,5 +1,5 @@
 #include <Python.h>
-#include <structmember.h> 
+#include <structmember.h>
 #include "matrix.h"
 #include "matrix_row.h"
 #include "matrix_column.h"
@@ -8,12 +8,11 @@
 #include "matrix_methods.h"
 #include "utils.h"
 
-
 extern PyMemberDef MatrixData_members[];
 
 PyTypeObject MatrixDataType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "chx_matrix.MatrixData",
+        .tp_name = "chx_matrix.MatrixData",
     .tp_basicsize = sizeof(MatrixDataObject),
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_doc = "Données matricielles partagées",
@@ -34,7 +33,7 @@ static PyMappingMethods Matrix_mappingmethods = {
 
 PyTypeObject MatrixType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "chx_matrix.Matrix",
+        .tp_name = "chx_matrix.Matrix",
     .tp_doc = "Simple Matrix class",
     .tp_basicsize = sizeof(MatrixObject),
     .tp_itemsize = 0,
@@ -58,7 +57,7 @@ static PyMappingMethods Row_mapping = {
 
 PyTypeObject RowType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "chx_matrix.Row",
+        .tp_name = "chx_matrix.Row",
     .tp_doc = "Simple Row class",
     .tp_basicsize = sizeof(RowObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
@@ -77,7 +76,7 @@ static PyMappingMethods Column_mapping = {
 
 PyTypeObject ColumnType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-    .tp_name = "chx_matrix.Column",
+        .tp_name = "chx_matrix.Column",
     .tp_doc = "Simple Column class",
     .tp_basicsize = sizeof(ColumnObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
@@ -94,7 +93,8 @@ static PyModuleDef matrixmodule = {
     .m_size = -1,
 };
 
-PyMODINIT_FUNC PyInit_chx_matrix(void) {
+PyMODINIT_FUNC PyInit_chx_matrix(void)
+{
     PyObject *module;
     if (PyType_Ready(&MatrixType) < 0)
         return NULL;
@@ -104,7 +104,8 @@ PyMODINIT_FUNC PyInit_chx_matrix(void) {
         return NULL;
 
     Py_INCREF(&MatrixType);
-    if (PyModule_AddObject(module, "Matrix", (PyObject *)&MatrixType) < 0) {
+    if (PyModule_AddObject(module, "Matrix", (PyObject *)&MatrixType) < 0)
+    {
         Py_DECREF(&MatrixType);
         Py_DECREF(module);
         return NULL;
@@ -114,7 +115,8 @@ PyMODINIT_FUNC PyInit_chx_matrix(void) {
         return NULL;
 
     Py_INCREF(&MatrixDataType);
-    if (PyModule_AddObject(module, "MatrixData", (PyObject *)&MatrixDataType) < 0) {
+    if (PyModule_AddObject(module, "MatrixData", (PyObject *)&MatrixDataType) < 0)
+    {
         Py_DECREF(&MatrixDataType);
         Py_DECREF(module);
         return NULL;
@@ -124,7 +126,8 @@ PyMODINIT_FUNC PyInit_chx_matrix(void) {
         return NULL;
 
     Py_INCREF(&RowType);
-    if (PyModule_AddObject(module, "Row", (PyObject *)&RowType)< 0) {
+    if (PyModule_AddObject(module, "Row", (PyObject *)&RowType) < 0)
+    {
         Py_DECREF(&RowType);
         Py_DECREF(module);
         return NULL;
@@ -134,7 +137,8 @@ PyMODINIT_FUNC PyInit_chx_matrix(void) {
         return NULL;
 
     Py_INCREF(&ColumnType);
-    if (PyModule_AddObject(module, "Column", (PyObject *)&ColumnType)< 0) {
+    if (PyModule_AddObject(module, "Column", (PyObject *)&ColumnType) < 0)
+    {
         Py_DECREF(&ColumnType);
         Py_DECREF(module);
         return NULL;

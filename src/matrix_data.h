@@ -6,5 +6,4 @@
 
 void MatrixData_dealloc(MatrixDataObject *self);
 
-
 #endif

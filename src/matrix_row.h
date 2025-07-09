@@ -11,7 +11,8 @@ PyObject *Row_subscript(RowObject *self, PyObject *key);
 
 int Row_ass_subscript(RowObject *self, PyObject *key, PyObject *value_obj);
 
-inline static PyObject* create_row_from_matrix(MatrixObject *self, Py_ssize_t cols, Py_ssize_t stride_i, Py_ssize_t stride_j, Py_ssize_t offset) {
+inline static PyObject *create_row_from_matrix(MatrixObject *self, Py_ssize_t cols, Py_ssize_t stride_i, Py_ssize_t stride_j, Py_ssize_t offset)
+{
 
     PyTypeObject *type = &RowType;
 

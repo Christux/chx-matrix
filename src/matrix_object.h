@@ -11,7 +11,8 @@ int Matrix_init(MatrixObject *self, PyObject *args, PyObject *kwds);
 
 void Matrix_dealloc(MatrixObject *self);
 
-inline static PyObject* create_from_matrix(MatrixObject *self, Py_ssize_t rows, Py_ssize_t cols, Py_ssize_t stride_i, Py_ssize_t stride_j, Py_ssize_t offset) {
+inline static PyObject *create_from_matrix(MatrixObject *self, Py_ssize_t rows, Py_ssize_t cols, Py_ssize_t stride_i, Py_ssize_t stride_j, Py_ssize_t offset)
+{
 
     PyTypeObject *type = Py_TYPE(self);
 

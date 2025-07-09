@@ -3,19 +3,22 @@
 #include "matrix_row.h"
 #include "utils.h"
 
-int Row_init(RowObject *self, PyObject *args, PyObject *kwds) {
-    static char *kwlist[] = {"length", NULL};    
+int Row_init(RowObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"length", NULL};
     Py_ssize_t length;
 
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "n", kwlist, &length))
         return -1;
 
-    return Matrix_init((MatrixObject *) self, Py_BuildValue("(nn)", 1, length), NULL);
+    return Matrix_init((MatrixObject *)self, Py_BuildValue("(nn)", 1, length), NULL);
 }
 
-PyObject *Row_subscript(RowObject *self, PyObject *key) {
-    
-    if (PyLong_Check(key)) {
+PyObject *Row_subscript(RowObject *self, PyObject *key)
+{
+
+    if (PyLong_Check(key))
+    {
         Py_ssize_t col = PyLong_AsSsize_t(key);
         return PyFloat_FromDouble(get_from_table((MatrixObject *)self, 0, col));
     }
@@ -36,18 +39,22 @@ PyObject *Row_subscript(RowObject *self, PyObject *key) {
     return NULL;
 }
 
-int Row_ass_subscript(RowObject *self, PyObject *key, PyObject *value_obj) {
+int Row_ass_subscript(RowObject *self, PyObject *key, PyObject *value_obj)
+{
 
-    if (PyLong_Check(key)) {
+    if (PyLong_Check(key))
+    {
         Py_ssize_t j = PyLong_AsSsize_t(key);
 
-        if (j < 0 || j >= ((MatrixObject *)self)->cols) {
+        if (j < 0 || j >= ((MatrixObject *)self)->cols)
+        {
             PyErr_SetString(PyExc_IndexError, "index out of range");
             return -1;
         }
 
         double value = PyFloat_AsDouble(value_obj);
-        if (PyErr_Occurred()) return -1;
+        if (PyErr_Occurred())
+            return -1;
 
         set_in_table((MatrixObject *)self, 0, j, value);
         return 0;

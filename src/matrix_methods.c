@@ -6,10 +6,11 @@
 #include "matrix_row.h"
 #include "matrix_column.h"
 
+inline static PyObject *get_row(MatrixObject *self, Py_ssize_t row_idx, Py_ssize_t col_start, Py_ssize_t col_end)
+{
 
-inline static PyObject *get_row(MatrixObject *self, Py_ssize_t row_idx, Py_ssize_t col_start, Py_ssize_t col_end) {
-
-    if (row_idx < 0 || row_idx >= self->rows || col_start < 0 || col_start >= self->cols || col_end < 0 || col_end >= self->cols || col_start > col_end) {
+    if (row_idx < 0 || row_idx >= self->rows || col_start < 0 || col_start >= self->cols || col_end < 0 || col_end >= self->cols || col_start > col_end)
+    {
         PyErr_SetString(PyExc_IndexError, "index out of range");
         return NULL;
     }
@@ -19,13 +20,14 @@ inline static PyObject *get_row(MatrixObject *self, Py_ssize_t row_idx, Py_ssize
         col_end - col_start + 1,
         self->stride_i,
         self->stride_j,
-        row_idx * self->stride_i + col_start * self->stride_j + self->offset
-    );
+        row_idx * self->stride_i + col_start * self->stride_j + self->offset);
 }
 
-inline static PyObject *get_column(MatrixObject *self, Py_ssize_t col_idx, Py_ssize_t row_start, Py_ssize_t row_end) {
+inline static PyObject *get_column(MatrixObject *self, Py_ssize_t col_idx, Py_ssize_t row_start, Py_ssize_t row_end)
+{
 
-    if (col_idx < 0 || col_idx >= self->cols || row_start < 0 || row_start >= self->rows || row_end < 0 || row_end >= self->rows || row_start > row_end) {
+    if (col_idx < 0 || col_idx >= self->cols || row_start < 0 || row_start >= self->rows || row_end < 0 || row_end >= self->rows || row_start > row_end)
+    {
         PyErr_SetString(PyExc_IndexError, "index out of range");
         return NULL;
     }
@@ -35,8 +37,7 @@ inline static PyObject *get_column(MatrixObject *self, Py_ssize_t col_idx, Py_ss
         row_end - row_start + 1,
         self->stride_i,
         self->stride_j,
-        row_start * self->stride_i + col_idx * self->stride_j + self->offset
-    );
+        row_start * self->stride_i + col_idx * self->stride_j + self->offset);
 }
 
 inline static PyObject *get_sub_matrix(
@@ -44,27 +45,31 @@ inline static PyObject *get_sub_matrix(
     Py_ssize_t row_start,
     Py_ssize_t row_end,
     Py_ssize_t col_start,
-    Py_ssize_t col_end) {
+    Py_ssize_t col_end)
+{
 
-    if (row_start < 0 || row_start >= self->rows || row_end < 0 || row_end >= self->rows || row_start > row_end 
-        || col_start < 0 || col_start >= self->cols || col_end < 0 || col_end >= self->cols || col_start > col_end) {
+    if (row_start < 0 || row_start >= self->rows || row_end < 0 || row_end >= self->rows || row_start > row_end || col_start < 0 || col_start >= self->cols || col_end < 0 || col_end >= self->cols || col_start > col_end)
+    {
 
         PyErr_Format(PyExc_IndexError,
-             "Invalid slice indices: row_start=%zd, row_end=%zd, col_start=%zd, col_end=%zd",
-             row_start, row_end, col_start, col_end);
+                     "Invalid slice indices: row_start=%zd, row_end=%zd, col_start=%zd, col_end=%zd",
+                     row_start, row_end, col_start, col_end);
 
         return NULL;
     }
 
-    if(row_start == row_end && col_start == col_end) {
+    if (row_start == row_end && col_start == col_end)
+    {
         return get(self, row_start, col_start);
     }
 
-    if(row_start == row_end) {
+    if (row_start == row_end)
+    {
         return get_row(self, row_start, col_start, col_end);
     }
 
-    if(col_start == col_end) {
+    if (col_start == col_end)
+    {
         return get_column(self, col_start, row_start, row_end);
     }
 
@@ -74,15 +79,16 @@ inline static PyObject *get_sub_matrix(
         col_end - col_start + 1,
         self->stride_i,
         self->stride_j,
-        row_start * self->stride_i + col_start * self->stride_j + self->offset
-    );
+        row_start * self->stride_i + col_start * self->stride_j + self->offset);
 }
 
-static PyObject* Matrix_get_shape(MatrixObject *self, void *closure) {
+static PyObject *Matrix_get_shape(MatrixObject *self, void *closure)
+{
     return Py_BuildValue("(nn)", self->rows, self->cols);
 }
 
-PyObject *Matrix_get(MatrixObject *self, PyObject *args, PyObject *kwds) {
+PyObject *Matrix_get(MatrixObject *self, PyObject *args, PyObject *kwds)
+{
     static char *kwlist[] = {"i", "j", NULL};
     Py_ssize_t i, j;
 
@@ -92,9 +98,11 @@ PyObject *Matrix_get(MatrixObject *self, PyObject *args, PyObject *kwds) {
     return get(self, i, j);
 }
 
-PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
-    
-    if (!PyTuple_Check(key) || PyTuple_Size(key) != 2) {
+PyObject *Matrix_subscript(MatrixObject *self, PyObject *key)
+{
+
+    if (!PyTuple_Check(key) || PyTuple_Size(key) != 2)
+    {
         PyErr_SetString(PyExc_TypeError, "Matrix requires two indices: matrix[i, j]");
         return NULL;
     }
@@ -102,17 +110,20 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
     PyObject *row_key = PyTuple_GET_ITEM(key, 0);
     PyObject *col_key = PyTuple_GET_ITEM(key, 1);
 
-    if (PyLong_Check(row_key) && PyLong_Check(col_key)) {
+    if (PyLong_Check(row_key) && PyLong_Check(col_key))
+    {
         Py_ssize_t i = PyLong_AsSsize_t(row_key);
         Py_ssize_t j = PyLong_AsSsize_t(col_key);
 
         return get(self, i, j);
     }
 
-    if (PyLong_Check(row_key) && PySlice_Check(col_key)) {
+    if (PyLong_Check(row_key) && PySlice_Check(col_key))
+    {
         Py_ssize_t i = PyLong_AsSsize_t(row_key);
-        
-        if (i < 0 || i >= self->rows) {
+
+        if (i < 0 || i >= self->rows)
+        {
             PyErr_SetString(PyExc_IndexError, "Matrix row index out of range");
             return NULL;
         }
@@ -122,7 +133,8 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
             return NULL;
 
         PySlice_AdjustIndices(self->cols, &c_start, &c_stop, c_step);
-        if (c_step != 1) {
+        if (c_step != 1)
+        {
             PyErr_SetString(PyExc_NotImplementedError, "Only step=1 is supported");
             return NULL;
         }
@@ -130,9 +142,11 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
         return get_sub_matrix(self, i, i, c_start, c_stop - 1);
     }
 
-    if (PySlice_Check(row_key) && PyLong_Check(col_key)) {
+    if (PySlice_Check(row_key) && PyLong_Check(col_key))
+    {
         Py_ssize_t j = PyLong_AsSsize_t(col_key);
-        if (j < 0 || j >= self->cols) {
+        if (j < 0 || j >= self->cols)
+        {
             PyErr_SetString(PyExc_IndexError, "Matrix column index out of range");
             return NULL;
         }
@@ -142,7 +156,8 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
             return NULL;
 
         PySlice_AdjustIndices(self->rows, &r_start, &r_stop, r_step);
-        if (r_step != 1) {
+        if (r_step != 1)
+        {
             PyErr_SetString(PyExc_NotImplementedError, "Only step=1 is supported");
             return NULL;
         }
@@ -150,7 +165,8 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
         return get_sub_matrix(self, r_start, r_stop - 1, j, j);
     }
 
-    if (PySlice_Check(row_key) && PySlice_Check(col_key)) {
+    if (PySlice_Check(row_key) && PySlice_Check(col_key))
+    {
         Py_ssize_t r_start, r_stop, r_step;
         Py_ssize_t c_start, c_stop, c_step;
 
@@ -161,7 +177,8 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
         PySlice_AdjustIndices(self->rows, &r_start, &r_stop, r_step);
         PySlice_AdjustIndices(self->cols, &c_start, &c_stop, c_step);
 
-        if (r_step != 1 || c_step != 1) {
+        if (r_step != 1 || c_step != 1)
+        {
             PyErr_SetString(PyExc_NotImplementedError, "Only step=1 is supported for now");
             return NULL;
         }
@@ -173,11 +190,12 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key) {
     return NULL;
 }
 
-PyObject *Matrix_set(MatrixObject *self, PyObject *args, PyObject *kwds) {
+PyObject *Matrix_set(MatrixObject *self, PyObject *args, PyObject *kwds)
+{
     static char *kwlist[] = {"i", "j", "value", NULL};
     Py_ssize_t i, j;
     double value;
-    
+
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "nnd", kwlist, &i, &j, &value))
         return NULL;
 
@@ -185,11 +203,13 @@ PyObject *Matrix_set(MatrixObject *self, PyObject *args, PyObject *kwds) {
     return set(self, i, j, value);
 }
 
-int Matrix_ass_subscript(MatrixObject *self, PyObject *key, PyObject *value_obj) {
+int Matrix_ass_subscript(MatrixObject *self, PyObject *key, PyObject *value_obj)
+{
     Py_ssize_t i, j;
     double value;
 
-    if (!PyTuple_Check(key) || PyTuple_Size(key) != 2) {
+    if (!PyTuple_Check(key) || PyTuple_Size(key) != 2)
+    {
         PyErr_SetString(PyExc_TypeError, "indices must be a tuple of two integers");
         return -1;
     }
@@ -200,23 +220,27 @@ int Matrix_ass_subscript(MatrixObject *self, PyObject *key, PyObject *value_obj)
     i = PyLong_AsSsize_t(i_obj);
     j = PyLong_AsSsize_t(j_obj);
 
-
-    if (i < 0 || i >= self->rows || j < 0 || j >= self->cols) {
+    if (i < 0 || i >= self->rows || j < 0 || j >= self->cols)
+    {
         PyErr_SetString(PyExc_IndexError, "index out of range");
         return -1;
     }
 
     value = PyFloat_AsDouble(value_obj);
-    if (PyErr_Occurred()) return -1;
+    if (PyErr_Occurred())
+        return -1;
 
     set_in_table(self, i, j, value);
     return 0;
 }
 
-inline static PyObject *setAll(MatrixObject *self, double value) {
+inline static PyObject *setAll(MatrixObject *self, double value)
+{
 
-    for (Py_ssize_t i = 0; i < self->rows; i++) {
-        for (Py_ssize_t j = 0; j < self->cols; j++) {
+    for (Py_ssize_t i = 0; i < self->rows; i++)
+    {
+        for (Py_ssize_t j = 0; j < self->cols; j++)
+        {
             set_in_table(self, i, j, value);
         }
     }
@@ -224,10 +248,11 @@ inline static PyObject *setAll(MatrixObject *self, double value) {
     return (PyObject *)self;
 }
 
-PyObject *Matrix_setAll(MatrixObject *self, PyObject *args, PyObject *kwds) {
+PyObject *Matrix_setAll(MatrixObject *self, PyObject *args, PyObject *kwds)
+{
     static char *kwlist[] = {"value", NULL};
     double value;
-    
+
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "d", kwlist, &value))
         return NULL;
 
@@ -235,23 +260,26 @@ PyObject *Matrix_setAll(MatrixObject *self, PyObject *args, PyObject *kwds) {
     return setAll(self, value);
 }
 
-PyObject *Matrix_transpose(MatrixObject *self, PyObject *Py_UNUSED(ignored)) {
+PyObject *Matrix_transpose(MatrixObject *self, PyObject *Py_UNUSED(ignored))
+{
 
     PyTypeObject *self_type = Py_TYPE(self);
     PyTypeObject *type;
 
-    if(self_type == &RowType) {
+    if (self_type == &RowType)
+    {
         type = &ColumnType;
-        
     }
-    else if(self_type == &ColumnType) {
+    else if (self_type == &ColumnType)
+    {
         type = &RowType;
     }
-    else {
+    else
+    {
         type = &MatrixType;
     }
-    
-    MatrixObject *matrix = (MatrixObject*)type->tp_alloc(type, 0);
+
+    MatrixObject *matrix = (MatrixObject *)type->tp_alloc(type, 0);
 
     if (!matrix)
         return NULL;
@@ -265,13 +293,13 @@ PyObject *Matrix_transpose(MatrixObject *self, PyObject *Py_UNUSED(ignored)) {
         self->stride_j,
         self->stride_i,
         self->offset,
-        self->data_obj
-    );
+        self->data_obj);
 
     return (PyObject *)matrix;
 }
 
-PyObject *Matrix_copy(MatrixObject *self, PyObject *Py_UNUSED(ignored)) {
+PyObject *Matrix_copy(MatrixObject *self, PyObject *Py_UNUSED(ignored))
+{
 
     PyTypeObject *type = Py_TYPE(self);
 
@@ -280,19 +308,21 @@ PyObject *Matrix_copy(MatrixObject *self, PyObject *Py_UNUSED(ignored)) {
         return NULL;
 
     MatrixDataObject *mdata = PyObject_New(MatrixDataObject, &MatrixDataType);
-    if (!mdata) 
+    if (!mdata)
         return NULL;
 
     mdata->size = self->rows * self->cols;
     mdata->data = calloc(mdata->size, sizeof(double));
-    
+
     if (!mdata->data)
         return PyErr_NoMemory(), NULL;
 
     instanciate_matrix(matrix, self->rows, self->cols, self->cols, 1, 0, mdata);
 
-    for(Py_ssize_t i = 0; i < self->rows; i++) {
-        for(Py_ssize_t j = 0; j < self->cols; j++) {
+    for (Py_ssize_t i = 0; i < self->rows; i++)
+    {
+        for (Py_ssize_t j = 0; j < self->cols; j++)
+        {
             set_in_table(matrix, i, j, get_from_table(self, i, j));
         }
     }
@@ -300,44 +330,50 @@ PyObject *Matrix_copy(MatrixObject *self, PyObject *Py_UNUSED(ignored)) {
     return (PyObject *)matrix;
 }
 
-PyObject *Matrix_get_sub_matrix(MatrixObject *self, PyObject *args, PyObject *kwds) {
+PyObject *Matrix_get_sub_matrix(MatrixObject *self, PyObject *args, PyObject *kwds)
+{
 
     static char *kwlist[] = {"row_start", "row_end", "col_start", "col_end", NULL};
     Py_ssize_t row_start, row_end, col_start, col_end;
-    
+
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "nnnn", kwlist, &row_start, &row_end, &col_start, &col_end))
         return NULL;
 
     return get_sub_matrix(self, row_start, row_end, col_start, col_end);
 }
 
-PyObject *Matrix_get_row(MatrixObject *self, PyObject *args, PyObject *kwds) {
+PyObject *Matrix_get_row(MatrixObject *self, PyObject *args, PyObject *kwds)
+{
 
     static char *kwlist[] = {"row", NULL};
     Py_ssize_t row_idx;
-    
+
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "n", kwlist, &row_idx))
         return NULL;
 
     return get_row(self, row_idx, 0, self->cols - 1);
 }
 
-PyObject *Matrix_get_column(MatrixObject *self, PyObject *args, PyObject *kwds) {
+PyObject *Matrix_get_column(MatrixObject *self, PyObject *args, PyObject *kwds)
+{
 
     static char *kwlist[] = {"col", NULL};
     Py_ssize_t col_idx;
-    
+
     if (!PyArg_ParseTupleAndKeywords(args, kwds, "n", kwlist, &col_idx))
         return NULL;
 
     return get_column(self, col_idx, 0, self->rows - 1);
 }
 
-PyObject *Matrix_str(MatrixObject *self) {
+PyObject *Matrix_str(MatrixObject *self)
+{
     PyObject *result = PyUnicode_FromString("[\n");
-    for (Py_ssize_t i = 0; i < self->rows; i++) {
+    for (Py_ssize_t i = 0; i < self->rows; i++)
+    {
         PyObject *line = PyUnicode_FromString("  [");
-        for (Py_ssize_t j = 0; j < self->cols; j++) {
+        for (Py_ssize_t j = 0; j < self->cols; j++)
+        {
             char buffer[32];
             snprintf(buffer, sizeof(buffer), "%.2f", get_from_table(self, i, j));
             PyObject *num = PyUnicode_FromString(buffer);
@@ -363,10 +399,9 @@ PyMethodDef Matrix_methods[] = {
     {"get_sub_matrix", (PyCFunction)Matrix_get_sub_matrix, METH_VARARGS | METH_KEYWORDS, "Get a part of the matrix"},
     {"get_row", (PyCFunction)Matrix_get_row, METH_VARARGS | METH_KEYWORDS, "Get a row of the matrix"},
     {"get_column", (PyCFunction)Matrix_get_column, METH_VARARGS | METH_KEYWORDS, "Get a column of the matrix"},
-    {NULL}
-};
+    {NULL}};
 
 PyGetSetDef Matrix_getset[] = {
     {"shape", (getter)Matrix_get_shape, NULL, "matrix dimensions (rows, cols)", NULL},
-    {NULL}  /* Sentinel */
+    {NULL} /* Sentinel */
 };
