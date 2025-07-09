@@ -1,0 +1,27 @@
+from setuptools import setup, Extension
+
+matrix = Extension(
+    "chx_matrix",
+    sources=[
+        "src/matrix.c",
+        "src/matrix_row.c",
+        "src/matrix_column.c",
+        "src/matrix_object.c",
+        "src/matrix_data.c",
+        "src/matrix_methods.c",
+        "src/utils.c"
+    ],
+)
+
+setup(
+    name="chx_matrix",
+    version="0.1",
+    description="A simple matrix manipulation module",
+    ext_modules=[matrix],
+    packages=["chx_matrix"],
+    package_dir={"chx_matrix": "src"},
+    package_data={
+        'chx_matrix': ['chx_matrix.pyi'],
+    },
+    python_requires='>=3.11'
+)
