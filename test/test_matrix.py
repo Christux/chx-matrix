@@ -82,18 +82,19 @@ def test_iter_rows():
 
     for i, row in enumerate(m.iter_rows()):
         row.set_all(i+1)
+        assert isinstance(row, Row)
 
-    assert m[0, 0] == m[0, 1] == 1
-    assert m[1, 0] == m[1, 1] == 2
-    assert m[2, 0] == m[2, 1] == 3
+    assert m[0, 0] == m[0, 1] == 1.
+    assert m[1, 0] == m[1, 1] == 2.
+    assert m[2, 0] == m[2, 1] == 3.
 
 def test_iter_columns():
 
     m = Matrix(3, 2)
 
-    for i, row in enumerate(m.iter_colums()):
-        row.set_all(i+1)
+    for i, col in enumerate(m.iter_colums()):
+        col.set_all(i+1)
+        assert isinstance(col, Column)
 
-    assert m[0, 0] == m[1, 0] == m[2, 0] == 1
-    assert m[0, 1] == m[1, 1] == m[2, 1] == 2
-
+    assert m[0, 0] == m[1, 0] == m[2, 0] == 1.
+    assert m[0, 1] == m[1, 1] == m[2, 1] == 2.
