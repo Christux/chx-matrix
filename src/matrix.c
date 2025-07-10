@@ -12,7 +12,7 @@ extern PyMemberDef MatrixData_members[];
 
 PyTypeObject MatrixDataType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-        .tp_name = "chx_matrix.MatrixData",
+    .tp_name = "chx_matrix.MatrixData",
     .tp_basicsize = sizeof(MatrixDataObject),
     .tp_flags = Py_TPFLAGS_DEFAULT,
     .tp_doc = "Données matricielles partagées",
@@ -33,7 +33,7 @@ static PyMappingMethods Matrix_mappingmethods = {
 
 PyTypeObject MatrixType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-        .tp_name = "chx_matrix.Matrix",
+    .tp_name = "chx_matrix.Matrix",
     .tp_doc = "Simple Matrix class",
     .tp_basicsize = sizeof(MatrixObject),
     .tp_itemsize = 0,
@@ -49,6 +49,8 @@ PyTypeObject MatrixType = {
     .tp_getset = Matrix_getset,
 };
 
+extern PyMethodDef Row_methods[];
+
 static PyMappingMethods Row_mapping = {
     .mp_length = NULL,
     .mp_subscript = (binaryfunc)Row_subscript,
@@ -57,12 +59,13 @@ static PyMappingMethods Row_mapping = {
 
 PyTypeObject RowType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-        .tp_name = "chx_matrix.Row",
+    .tp_name = "chx_matrix.Row",
     .tp_doc = "Simple Row class",
     .tp_basicsize = sizeof(RowObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
     .tp_init = (initproc)Row_init,
     .tp_base = &MatrixType,
+    .tp_methods = Row_methods,
     .tp_as_mapping = &Row_mapping,
 };
 
@@ -76,7 +79,7 @@ static PyMappingMethods Column_mapping = {
 
 PyTypeObject ColumnType = {
     PyVarObject_HEAD_INIT(NULL, 0)
-        .tp_name = "chx_matrix.Column",
+    .tp_name = "chx_matrix.Column",
     .tp_doc = "Simple Column class",
     .tp_basicsize = sizeof(ColumnObject),
     .tp_flags = Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,

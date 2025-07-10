@@ -7,6 +7,10 @@
 
 int Row_init(RowObject *self, PyObject *args, PyObject *kwds);
 
+PyObject *Row_get(RowObject *self, PyObject *args, PyObject *kwds);
+
+PyObject *Row_set(RowObject *self, PyObject *args, PyObject *kwds);
+
 PyObject *Row_subscript(RowObject *self, PyObject *key);
 
 int Row_ass_subscript(RowObject *self, PyObject *key, PyObject *value_obj);

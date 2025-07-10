@@ -14,6 +14,30 @@ int Row_init(RowObject *self, PyObject *args, PyObject *kwds)
     return Matrix_init((MatrixObject *)self, Py_BuildValue("(nn)", 1, length), NULL);
 }
 
+PyObject *Row_get(RowObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"i", NULL};
+    Py_ssize_t i;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "n", kwlist, &i))
+        return NULL;
+
+    return get((MatrixObject *)self, 0, i);
+}
+
+PyObject *Row_set(RowObject *self, PyObject *args, PyObject *kwds)
+{
+    static char *kwlist[] = {"i", "value", NULL};
+    Py_ssize_t i;
+    double value;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "nd", kwlist, &i, &value))
+        return NULL;
+
+    Py_INCREF(self);
+    return set((MatrixObject *)self, 0, i, value);
+}
+
 PyObject *Row_subscript(RowObject *self, PyObject *key)
 {
 
@@ -63,3 +87,8 @@ int Row_ass_subscript(RowObject *self, PyObject *key, PyObject *value_obj)
     PyErr_SetString(PyExc_TypeError, "Invalid index for Row");
     return -1;
 }
+
+PyMethodDef Row_methods[] = {
+    {"get", (PyCFunction)Row_get, METH_VARARGS | METH_KEYWORDS, "Get value at (i)"},
+    {"set", (PyCFunction)Row_set, METH_VARARGS | METH_KEYWORDS, "Set value at (i)"},
+    {NULL}};

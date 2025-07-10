@@ -75,4 +75,3 @@ def test_matrix_copy():
     for i in range(3):
         for j in range(2):
             assert c.get(i=i, j=j) == 5.
-
