@@ -1,3 +1,6 @@
+from typing import Iterator, Self
+
+
 class Matrix:
     """
     Light and fast Matrix manipulation class
@@ -110,6 +113,53 @@ class Matrix:
 
         Returns:
             Column: _description_
+        """
+
+    def iter_rows(self) -> Iterator['Row']:
+        """_summary_
+        """
+
+    def iter_colums(self) -> Iterator['Column']:
+        """_summary_
+        """
+
+    def scale(self, factor: float) -> Self:
+        """_summary_
+
+        Args:
+            factor (float): _description_
+
+        Returns:
+            Self: _description_
+        """
+
+    def sum(self) -> float:
+        """_summary_
+
+        Returns:
+            float: _description_
+        """
+
+    def add(self, other: 'Matrix') -> None:
+        """Matrix = matrix + other
+
+        Args:
+            other (Matrix): _description_
+        """
+
+    def substract(self, other: 'Matrix') -> None:
+        """Matrix = matrix - other
+
+        Args:
+            other (Matrix): _description_
+        """
+
+    def multiply(self, m1: 'Matrix', m2: 'Matrix') -> None:
+        """Matrix = M1 * M2
+
+        Args:
+            M1 (Matrix): _description_
+            M2 (Matrix): _description_
         """
 
 

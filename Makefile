@@ -9,12 +9,12 @@ build:
 
 clean:
 	rm -rf build dist *.egg-info
-	#find . -path '*.venv' -prune -o -name '*.so' -type f -delete
-	#find . -path '*.venv' -prune -o -name '*.pyc' -type f -delete
-	#find . -path '*.venv' -prune -o -name '__pycache__' -type d -exec rm -r {} +
 
 install:
 	python -m pip install .
 
 test:
 	python -m pytest -v test
+
+readme:
+	python -m jupyter nbconvert --to markdown Readme.ipynb

@@ -23,5 +23,6 @@ setup(
     package_data={
         'chx_matrix': ['chx_matrix.pyi'],
     },
-    python_requires='>=3.11'
+    python_requires='>=3.11',
+    requires=[],
 )
