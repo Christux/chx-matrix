@@ -12,18 +12,16 @@ matrix = Extension(
         "src/matrix_maths.c",
         "src/utils.c"
     ],
+    include_dirs=["src"],
 )
 
 setup(
     name="chx_matrix",
-    version="0.1",
-    description="A simple matrix manipulation module",
+    version="0.1.0",
     ext_modules=[matrix],
     packages=["chx_matrix"],
     package_dir={"chx_matrix": "src"},
     package_data={
-        'chx_matrix': ['chx_matrix.pyi'],
+        'chx_matrix': ['chx_matrix.pyi', '*.h'],
     },
-    python_requires='>=3.11',
-    requires=[],
 )
