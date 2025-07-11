@@ -28,7 +28,7 @@ jobs:
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v4
       with:
-        python: ${{ matrix.python }}
+        python-version: ${{ matrix.python }}
         architecture: ${{ matrix.arch }}
 
     - name: Install build dependencies
