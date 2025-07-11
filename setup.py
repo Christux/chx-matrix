@@ -9,6 +9,7 @@ matrix = Extension(
         "src/matrix_object.c",
         "src/matrix_data.c",
         "src/matrix_methods.c",
+        "src/matrix_maths.c",
         "src/utils.c"
     ],
 )

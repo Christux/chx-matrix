@@ -1,4 +1,6 @@
 import gc
+
+import pytest
 from chx_matrix import Matrix, Row, Column
 
 
@@ -32,6 +34,25 @@ def test_set_get():
         for j in range(4):
             assert m.get(i=i, j=j) == 2.0
 
+def test_index_ranges():
+
+    m = Matrix(rows=3, cols=4)
+
+    with pytest.raises(IndexError):
+        m.get(0, 6)
+
+    with pytest.raises(IndexError):
+        m.get(-1, 0)
+
+    with pytest.raises(IndexError):
+        m[0, 6]
+
+    with pytest.raises(IndexError):
+        m.set(0, 6, 1.)
+
+    with pytest.raises(IndexError):
+        m[0, 6] = 1.
+
 def test_transpose():
 
     m = Matrix(3, 2)
@@ -48,7 +69,6 @@ def test_transpose():
     assert t[0, 0] == t[1, 0] == t[0, 2] == t[1, 2] == 4.
     assert t[0, 1] == 6.
     assert t[1, 1] == 7.
-
 
 def test_data_sharing():
     m = Matrix(3, 2)

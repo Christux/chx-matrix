@@ -5,6 +5,8 @@
 #include "matrix_methods.h"
 #include "matrix_row.h"
 #include "matrix_column.h"
+#include "matrix_maths.h"
+
 
 inline static PyObject *get_row(MatrixObject *self, Py_ssize_t row_idx, Py_ssize_t col_start, Py_ssize_t col_end)
 {
@@ -391,14 +393,15 @@ PyObject *Matrix_str(MatrixObject *self)
 }
 
 PyMethodDef Matrix_methods[] = {
-    {"get", (PyCFunction)Matrix_get, METH_VARARGS | METH_KEYWORDS, "Get value at (i, j)"},
-    {"set", (PyCFunction)Matrix_set, METH_VARARGS | METH_KEYWORDS, "Set value at (i, j)"},
-    {"set_all", (PyCFunction)Matrix_setAll, METH_VARARGS | METH_KEYWORDS, "Set all values"},
-    {"transpose", (PyCFunction)Matrix_transpose, METH_NOARGS, "Get transposed matrix"},
-    {"copy", (PyCFunction)Matrix_copy, METH_NOARGS, "Get copied matrix"},
-    {"get_sub_matrix", (PyCFunction)Matrix_get_sub_matrix, METH_VARARGS | METH_KEYWORDS, "Get a part of the matrix"},
-    {"get_row", (PyCFunction)Matrix_get_row, METH_VARARGS | METH_KEYWORDS, "Get a row of the matrix"},
-    {"get_column", (PyCFunction)Matrix_get_column, METH_VARARGS | METH_KEYWORDS, "Get a column of the matrix"},
+    {"get", (PyCFunction)Matrix_get, METH_VARARGS | METH_KEYWORDS, "Gets value at (i, j)"},
+    {"set", (PyCFunction)Matrix_set, METH_VARARGS | METH_KEYWORDS, "Sets value at (i, j)"},
+    {"set_all", (PyCFunction)Matrix_setAll, METH_VARARGS | METH_KEYWORDS, "Sets all values"},
+    {"transpose", (PyCFunction)Matrix_transpose, METH_NOARGS, "Gets transposed matrix"},
+    {"copy", (PyCFunction)Matrix_copy, METH_NOARGS, "Gets copied matrix"},
+    {"get_sub_matrix", (PyCFunction)Matrix_get_sub_matrix, METH_VARARGS | METH_KEYWORDS, "Gets a part of the matrix"},
+    {"get_row", (PyCFunction)Matrix_get_row, METH_VARARGS | METH_KEYWORDS, "Gets a row of the matrix"},
+    {"get_column", (PyCFunction)Matrix_get_column, METH_VARARGS | METH_KEYWORDS, "Gets a column of the matrix"},
+    {"scale", (PyCFunction)Matrix_scale, METH_VARARGS | METH_KEYWORDS, "Scales values of the matrix"},
     {NULL}};
 
 PyGetSetDef Matrix_getset[] = {
