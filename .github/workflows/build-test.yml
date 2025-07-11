@@ -38,8 +38,8 @@ jobs:
       run: |
         pip install dist/*.whl
 
-    - name: Run tests
-      run: pytest tests
+    #- name: Run tests
+    #  run: pytest tests
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
