@@ -6,6 +6,7 @@
 #include "matrix_row.h"
 #include "matrix_column.h"
 #include "matrix_maths.h"
+#include "matrix_iterators.h"
 
 
 inline static PyObject *get_row(MatrixObject *self, Py_ssize_t row_idx, Py_ssize_t col_start, Py_ssize_t col_end)
@@ -89,7 +90,7 @@ static PyObject *Matrix_get_shape(MatrixObject *self, void *closure)
     return Py_BuildValue("(nn)", self->rows, self->cols);
 }
 
-PyObject *Matrix_get(MatrixObject *self, PyObject *args, PyObject *kwds)
+static PyObject *Matrix_get(MatrixObject *self, PyObject *args, PyObject *kwds)
 {
     static char *kwlist[] = {"i", "j", NULL};
     Py_ssize_t i, j;
@@ -192,7 +193,7 @@ PyObject *Matrix_subscript(MatrixObject *self, PyObject *key)
     return NULL;
 }
 
-PyObject *Matrix_set(MatrixObject *self, PyObject *args, PyObject *kwds)
+static PyObject *Matrix_set(MatrixObject *self, PyObject *args, PyObject *kwds)
 {
     static char *kwlist[] = {"i", "j", "value", NULL};
     Py_ssize_t i, j;
@@ -250,7 +251,7 @@ inline static PyObject *setAll(MatrixObject *self, double value)
     return (PyObject *)self;
 }
 
-PyObject *Matrix_setAll(MatrixObject *self, PyObject *args, PyObject *kwds)
+static PyObject *Matrix_setAll(MatrixObject *self, PyObject *args, PyObject *kwds)
 {
     static char *kwlist[] = {"value", NULL};
     double value;
@@ -262,7 +263,7 @@ PyObject *Matrix_setAll(MatrixObject *self, PyObject *args, PyObject *kwds)
     return setAll(self, value);
 }
 
-PyObject *Matrix_transpose(MatrixObject *self, PyObject *Py_UNUSED(ignored))
+static PyObject *Matrix_transpose(MatrixObject *self, PyObject *Py_UNUSED(ignored))
 {
 
     PyTypeObject *self_type = Py_TYPE(self);
@@ -300,7 +301,7 @@ PyObject *Matrix_transpose(MatrixObject *self, PyObject *Py_UNUSED(ignored))
     return (PyObject *)matrix;
 }
 
-PyObject *Matrix_copy(MatrixObject *self, PyObject *Py_UNUSED(ignored))
+static PyObject *Matrix_copy(MatrixObject *self, PyObject *Py_UNUSED(ignored))
 {
 
     PyTypeObject *type = Py_TYPE(self);
@@ -332,9 +333,8 @@ PyObject *Matrix_copy(MatrixObject *self, PyObject *Py_UNUSED(ignored))
     return (PyObject *)matrix;
 }
 
-PyObject *Matrix_get_sub_matrix(MatrixObject *self, PyObject *args, PyObject *kwds)
+static PyObject *Matrix_get_sub_matrix(MatrixObject *self, PyObject *args, PyObject *kwds)
 {
-
     static char *kwlist[] = {"row_start", "row_end", "col_start", "col_end", NULL};
     Py_ssize_t row_start, row_end, col_start, col_end;
 
@@ -344,7 +344,7 @@ PyObject *Matrix_get_sub_matrix(MatrixObject *self, PyObject *args, PyObject *kw
     return get_sub_matrix(self, row_start, row_end, col_start, col_end);
 }
 
-PyObject *Matrix_get_row(MatrixObject *self, PyObject *args, PyObject *kwds)
+static PyObject *Matrix_get_row(MatrixObject *self, PyObject *args, PyObject *kwds)
 {
 
     static char *kwlist[] = {"row", NULL};
@@ -356,7 +356,7 @@ PyObject *Matrix_get_row(MatrixObject *self, PyObject *args, PyObject *kwds)
     return get_row(self, row_idx, 0, self->cols - 1);
 }
 
-PyObject *Matrix_get_column(MatrixObject *self, PyObject *args, PyObject *kwds)
+static PyObject *Matrix_get_column(MatrixObject *self, PyObject *args, PyObject *kwds)
 {
 
     static char *kwlist[] = {"col", NULL};
@@ -402,6 +402,8 @@ PyMethodDef Matrix_methods[] = {
     {"get_row", (PyCFunction)Matrix_get_row, METH_VARARGS | METH_KEYWORDS, "Gets a row of the matrix"},
     {"get_column", (PyCFunction)Matrix_get_column, METH_VARARGS | METH_KEYWORDS, "Gets a column of the matrix"},
     {"scale", (PyCFunction)Matrix_scale, METH_VARARGS | METH_KEYWORDS, "Scales values of the matrix"},
+    {"iter_rows", (PyCFunction)Matrix_iter_rows, METH_NOARGS, "Return an iterator over matrix rows"},
+    {"iter_colums", (PyCFunction)Matrix_iter_columns, METH_NOARGS, "Return an iterator over matrix columns"},
     {NULL}};
 
 PyGetSetDef Matrix_getset[] = {
