@@ -368,6 +368,44 @@ static PyObject *Matrix_get_column(MatrixObject *self, PyObject *args, PyObject 
     return get_column(self, col_idx, 0, self->rows - 1);
 }
 
+static PyObject *Matrix_apply(MatrixObject *self, PyObject *args) {
+    PyObject *func;
+    if (!PyArg_ParseTuple(args, "O", &func))
+        return NULL;
+
+    if (!PyCallable_Check(func)) {
+        PyErr_SetString(PyExc_TypeError, "Expected a callable object");
+        return NULL;
+    }
+
+    for (Py_ssize_t i = 0; i < self->rows; i++) {
+        for (Py_ssize_t j = 0; j < self->cols; j++) {
+            double val = get_from_table(self, i, j);
+
+            PyObject *arglist = Py_BuildValue("(dnn)", val, i, j);
+            if (!arglist)
+                return NULL;
+
+            PyObject *result = PyObject_CallObject(func, arglist);
+            Py_DECREF(arglist);
+
+            if (!result)
+                return NULL;
+
+            double new_val = PyFloat_AsDouble(result);
+            Py_DECREF(result);
+
+            if (PyErr_Occurred())
+                return NULL;
+
+            set_in_table(self, i, j, new_val);
+        }
+    }
+
+    Py_INCREF(self);
+    return (PyObject *)self;
+}
+
 PyObject *Matrix_str(MatrixObject *self)
 {
     PyObject *result = PyUnicode_FromString("[\n");
@@ -404,6 +442,7 @@ PyMethodDef Matrix_methods[] = {
     {"scale", (PyCFunction)Matrix_scale, METH_VARARGS | METH_KEYWORDS, "Scales values of the matrix"},
     {"iter_rows", (PyCFunction)Matrix_iter_rows, METH_NOARGS, "Return an iterator over matrix rows"},
     {"iter_colums", (PyCFunction)Matrix_iter_columns, METH_NOARGS, "Return an iterator over matrix columns"},
+    {"apply", (PyCFunction)Matrix_apply, METH_VARARGS, "Apply a function to each value: f(value, i, j)"},
     {NULL}};
 
 PyGetSetDef Matrix_getset[] = {

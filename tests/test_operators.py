@@ -1,5 +1,15 @@
 from chx_matrix import Matrix, Row, Column
 
+
+def test_apply():
+
+    m = Matrix(2, 3).apply(lambda val, i, j: i * 10 + j + 2)
+
+    assert m[0, 0] == 2
+    assert m[0, 1] == 3
+    assert m[1, 0] == 12
+    assert m[1, 2] == 14
+
 def test_scale():
 
     m = Matrix(2, 3).set_all(4.).scale(2.)

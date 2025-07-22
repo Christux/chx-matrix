@@ -1,4 +1,4 @@
-from typing import Iterator, Self
+from typing import Callable, Iterator, Self
 
 
 class Matrix:
@@ -120,6 +120,13 @@ class Matrix:
 
     def iter_colums(self) -> Iterator['Column']:
         """Iterates on the columns of the matrix
+        """
+
+    def apply(self, func: Callable[[float, int, int], float]) -> Self:
+        """Applies a function to each value of the matrix: func(value, i, j)
+
+        Args:
+            func (Callable[[float, int, int], None]): the function to apply on each value
         """
 
     def scale(self, factor: float) -> Self:
