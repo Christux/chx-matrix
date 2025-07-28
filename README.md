@@ -1,3 +1,5 @@
+[![Build and Test chx_matrix on multiple OS and architectures](https://github.com/Christux/chx-matrix/actions/workflows/build-test.yml/badge.svg?branch=main)](https://github.com/Christux/chx-matrix/actions/workflows/build-test.yml)
+
 # Matrix
 A light matrix manipulation and calculation module
 
@@ -70,9 +72,9 @@ m
 
 
     [
-      [4.00, 4.00],
-      [6.00, 7.00],
-      [4.00, 4.00],
+      [4.00, 4.00, 4.00, 4.00],
+      [6.00, 7.00, 4.00, 4.00],
+      [4.00, 4.00, 4.00, 4.00],
     ]
 
 
@@ -89,6 +91,8 @@ n
     [
       [4.00, 6.00, 4.00],
       [4.00, 7.00, 4.00],
+      [4.00, 4.00, 4.00],
+      [4.00, 4.00, 4.00],
     ]
 
 
@@ -106,9 +110,9 @@ c
 
 
     [
-      [4.00, 4.00],
-      [6.00, 7.00],
-      [4.00, 4.00],
+      [4.00, 4.00, 4.00, 4.00],
+      [6.00, 7.00, 4.00, 4.00],
+      [4.00, 4.00, 4.00, 4.00],
     ]
 
 
@@ -154,9 +158,9 @@ c
 
 
     [
-      [4.00, 4.00],
-      [6.00, 6.00],
-      [6.00, 6.00],
+      [4.00, 4.00, 4.00, 4.00],
+      [6.00, 6.00, 4.00, 4.00],
+      [6.00, 6.00, 4.00, 4.00],
     ]
 
 
@@ -220,13 +224,10 @@ m.get_column(1).transpose().set(2, 3.)
 ```
 
 
-    ---------------------------------------------------------------------------
-
-    TypeError                                 Traceback (most recent call last)
-
-    Cell In[12], line 1
-    ----> 1 m.get_column(1).transpose().set(2, 3.)
 
 
-    TypeError: 'float' object cannot be interpreted as an integer
+    [
+      [5.00, 2.00, 3.00],
+    ]
+
 
