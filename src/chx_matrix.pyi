@@ -204,6 +204,8 @@ class Row(Matrix):
             value (float): value
         """
 
+    def transpose(self) -> 'Column': ...
+
 
 class Column(Matrix):
     """_summary_
@@ -236,3 +238,5 @@ class Column(Matrix):
             i (int): index
             value (float): value
         """
+
+    def transpose(self) -> 'Row': ...
