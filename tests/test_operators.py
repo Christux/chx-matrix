@@ -1,3 +1,4 @@
+import pytest
 from chx_matrix import Matrix, Row, Column
 
 
@@ -30,7 +31,16 @@ def test_add_wrong_size():
     m1 = Matrix(2, 3).set_all(2.)
     m2 = Matrix(2, 4).set_all(1.)
 
-    m1.add(m2)
+    with pytest.raises(ValueError):
+        m1.add(m2)
+
+def test_add_wrong_other():
+
+    m1 = Matrix(2, 3).set_all(2.)
+    m2 = "Hello"
+
+    with pytest.raises(TypeError):
+        m1.add(m2) # type: ignore
 
 def test_substract():
 
@@ -46,7 +56,17 @@ def test_substract_wrong_size():
     m1 = Matrix(2, 3).set_all(2.)
     m2 = Matrix(2, 4).set_all(1.)
 
-    m1.substract(m2)
+    with pytest.raises(ValueError):
+        m1.substract(m2)
+
+def test_substract_wrong_other():
+
+    m1 = Matrix(2, 3).set_all(2.)
+    m2 = "Hello"
+
+    with pytest.raises(TypeError):
+        m1.substract(m2) # type: ignore
+
 
 def test_multiply():
 

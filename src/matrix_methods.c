@@ -443,6 +443,8 @@ PyMethodDef Matrix_methods[] = {
     {"iter_rows", (PyCFunction)Matrix_iter_rows, METH_NOARGS, "Return an iterator over matrix rows"},
     {"iter_colums", (PyCFunction)Matrix_iter_columns, METH_NOARGS, "Return an iterator over matrix columns"},
     {"apply", (PyCFunction)Matrix_apply, METH_VARARGS, "Apply a function to each value: f(value, i, j)"},
+    {"add", (PyCFunction)Matrix_add, METH_VARARGS | METH_KEYWORDS, "Add another matrix in-place"},
+    {"substract", (PyCFunction)Matrix_substract, METH_VARARGS | METH_KEYWORDS, "Substract another matrix in-place"},
     {NULL}};
 
 PyGetSetDef Matrix_getset[] = {

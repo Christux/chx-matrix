@@ -23,3 +23,61 @@ PyObject *Matrix_scale(MatrixObject *self, PyObject *args, PyObject *kwds)
     Py_INCREF(self);
     return (PyObject *)self;    
 }
+
+PyObject *Matrix_add(MatrixObject *self, PyObject *args, PyObject *kwds) {
+    static char *kwlist[] = {"other", NULL};
+    PyObject *other = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O", kwlist, &other))
+        return NULL;
+
+    if (!PyObject_TypeCheck(other, &MatrixType) && !PyObject_TypeCheck(other, &RowType) && !PyObject_TypeCheck(other, &ColumnType)) {
+        PyErr_SetString(PyExc_TypeError, "Expected a Matrix or Row or Column as 'other'");
+        return NULL;
+    }
+
+    MatrixObject *other_matrix = (MatrixObject *)other;
+
+    if (self->rows != other_matrix->rows || self->cols != other_matrix->cols) {
+        PyErr_SetString(PyExc_ValueError, "Matrix dimensions must match for addition");
+        return NULL;
+    }
+
+    for (Py_ssize_t i = 0; i < self->rows; i++) {
+        for (Py_ssize_t j = 0; j < self->cols; j++) {
+            set_in_table(self, i, j, get_from_table(self, i, j) + get_from_table(other_matrix, i, j));
+        }
+    }
+
+    Py_INCREF(self);
+    return (PyObject *)self;
+}
+
+PyObject *Matrix_substract(MatrixObject *self, PyObject *args, PyObject *kwds) {
+    static char *kwlist[] = {"other", NULL};
+    PyObject *other = NULL;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwds, "O", kwlist, &other))
+        return NULL;
+
+    if (!PyObject_TypeCheck(other, &MatrixType) && !PyObject_TypeCheck(other, &RowType) && !PyObject_TypeCheck(other, &ColumnType)) {
+        PyErr_SetString(PyExc_TypeError, "Expected a Matrix or Row or Column as 'other'");
+        return NULL;
+    }
+
+    MatrixObject *other_matrix = (MatrixObject *)other;
+
+    if (self->rows != other_matrix->rows || self->cols != other_matrix->cols) {
+        PyErr_SetString(PyExc_ValueError, "Matrix dimensions must match for substraction");
+        return NULL;
+    }
+
+    for (Py_ssize_t i = 0; i < self->rows; i++) {
+        for (Py_ssize_t j = 0; j < self->cols; j++) {
+            set_in_table(self, i, j, get_from_table(self, i, j) - get_from_table(other_matrix, i, j));
+        }
+    }
+
+    Py_INCREF(self);
+    return (PyObject *)self;
+}

@@ -5,6 +5,7 @@
 #include "matrix.h"
 
 PyObject *Matrix_scale(MatrixObject *self, PyObject *args, PyObject *kwds);
-
+PyObject *Matrix_add(MatrixObject *self, PyObject *args, PyObject *kwds);
+PyObject *Matrix_substract(MatrixObject *self, PyObject *args, PyObject *kwds);
 
 #endif
