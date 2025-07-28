@@ -146,7 +146,7 @@ class Matrix:
             float: the sum
         """
 
-    def add(self, other: 'Matrix') -> None:
+    def add(self, other: 'Matrix') -> Self:
         """Adds matrix by an other one
         Matrix = matrix + other
 
@@ -154,7 +154,7 @@ class Matrix:
             other (Matrix): the other matrix
         """
 
-    def substract(self, other: 'Matrix') -> None:
+    def substract(self, other: 'Matrix') -> Self:
         """Substracts matrix by an other one
         Matrix = matrix - other
 
@@ -162,7 +162,7 @@ class Matrix:
             other (Matrix): the other matrix
         """
 
-    def multiply(self, m1: 'Matrix', m2: 'Matrix') -> None:
+    def multiply(self, m1: 'Matrix', m2: 'Matrix') -> Self:
         """Multiplies matrixes
         Matrix = M1 * M2
 

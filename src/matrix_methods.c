@@ -445,6 +445,7 @@ PyMethodDef Matrix_methods[] = {
     {"apply", (PyCFunction)Matrix_apply, METH_VARARGS, "Apply a function to each value: f(value, i, j)"},
     {"add", (PyCFunction)Matrix_add, METH_VARARGS | METH_KEYWORDS, "Add another matrix in-place"},
     {"substract", (PyCFunction)Matrix_substract, METH_VARARGS | METH_KEYWORDS, "Substract another matrix in-place"},
+    {"multiply", (PyCFunction)Matrix_multiply, METH_VARARGS | METH_KEYWORDS, "Multiply two matrices (or rows) into self: multiply(left=A, right=B) => self = A × B"},
     {NULL}};
 
 PyGetSetDef Matrix_getset[] = {

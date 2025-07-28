@@ -95,7 +95,25 @@ def test_multiply_wrong_size():
 
     m1 = Matrix(3,2)
     m2 = Matrix(2,3)
+    m3 = Matrix(1,3)
+
+    with pytest.raises(ValueError):
+        m3.multiply(m1, m2)
+
+def test_multiply_wrong_left_type():
+
+    m1 = "Hello"
+    m2 = Matrix(2,3)
     m3 = Matrix(3,3)
 
-    m3.multiply(m1, m2)
+    with pytest.raises(TypeError):
+        m3.multiply(m1, m2) # type: ignore
 
+def test_multiply_wrong_right_type():
+
+    m1 = Matrix(3,2)
+    m2 = "Hello"
+    m3 = Matrix(3,3)
+
+    with pytest.raises(TypeError):
+        m3.multiply(m1, m2) # type: ignore
